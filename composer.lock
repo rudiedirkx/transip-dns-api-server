@@ -1,0 +1,68 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "9cc96a62add17fe83dd7a1895e3f57de",
+    "packages": [
+        {
+            "name": "dopee/transip-api",
+            "version": "1.4.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dopee/transip-api.git",
+                "reference": "973d6a08e736843e46444e47a7765bc06d58c50b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dopee/transip-api/zipball/973d6a08e736843e46444e47a7765bc06d58c50b",
+                "reference": "973d6a08e736843e46444e47a7765bc06d58c50b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Transip\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mitchel Verschoof",
+                    "email": "mitchel@verschoof.net",
+                    "homepage": "http://www.verschoof.net"
+                },
+                {
+                    "name": "TransIp API",
+                    "homepage": "https://api.transip.nl/"
+                },
+                {
+                    "name": "Sander Krul",
+                    "email": "sander@dope-e.nl",
+                    "homepage": "https://www.netvlies.nl"
+                }
+            ],
+            "description": "TransIp API client",
+            "keywords": [
+                "api",
+                "transip"
+            ],
+            "time": "2017-05-09T12:50:52+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

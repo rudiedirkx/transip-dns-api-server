@@ -1,0 +1,14 @@
+{
+    "name": "rdx/transip-api-server",
+    "type": "project",
+    "require": {
+        "dopee/transip-api": "^1.4"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rudie Dirkx",
+            "email": "github@hotblocks.nl"
+        }
+    ]
+}
