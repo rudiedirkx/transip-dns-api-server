@@ -1,10 +1,10 @@
 {
     "name": "rdx/transip-api-server",
     "type": "project",
-    "require": {
-        "dopee/transip-api": "^1.4"
-    },
     "license": "MIT",
+    "autoload": {
+    	"classmap": ["src/"]
+    },
     "authors": [
         {
             "name": "Rudie Dirkx",

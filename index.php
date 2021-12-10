@@ -1,8 +1,5 @@
 <?php
 
-use Transip\Client;
-use Transip\Model\DnsEntry;
-
 require __DIR__ . '/vendor/autoload.php';
 
 header('Content-type: text/plain; charset=utf-8');
@@ -10,11 +7,6 @@ header('Content-type: text/plain; charset=utf-8');
 function err($msg) {
 	header('HTTP/1.1 400 Invalid');
 	exit("$msg\n");
-}
-
-function client() {
-	$client = new Client($_POST['username'], $_POST['key'], false, 'api.transip.nl');
-	return $client->api('domain');
 }
 
 if ( !isset($_POST['username'], $_POST['key']) ) {
@@ -27,50 +19,37 @@ if ( !isset($d['domain'], $d['type'], $d['name']) ) {
 	err("Missing params");
 }
 
+// $token = trim(@file_get_contents($tokenFile = __DIR__ . '/token.txt') ?: '');
+// if ( !$token ) {
+	$auth = new TransIP_AccessToken($_POST['username'], $_POST['key'], 'rdx/transip-api-server/' . rand());
+	$token = $auth->createToken();
+// 	file_put_contents($tokenFile, $token);
+// }
+
+$client = new TransipClient($token);
+
 if ( isset($d['add']) ) {
 	if ( !isset($d['value']) ) {
 		err("Missing params");
 	}
 
-	$client = client();
-
-	try {
-		$records = $client->getInfo($d['domain'])->dnsEntries;
-		$record = new DnsEntry($d['name'], @$d['ttl'] ?: 3600, strtoupper($d['type']), $d['value']);
-		$records[] = $record;
-
-		$client->setDnsEntries($d['domain'], $records);
-	}
-	catch ( Exception $ex ) {
-		err($ex->getMessage());
-	}
+	$client->dnsAdd($d['domain'], $d['name'], $d['type'], $d['value'], $d['ttl'] ?? null);
 
 	exit("Record added.\n");
 }
 
 elseif ( isset($d['delete']) ) {
-	$client = client();
+	$records = $client->dnsGet($d['domain']);
 
-	try {
-		$before = $client->getInfo($d['domain'])->dnsEntries;
-
-		$removed = array_filter($before, function(DnsEntry $record) use ($d) {
-			if ( $record->type == strtoupper($d['type']) && $record->name == $d['name'] ) {
-				if ( empty($d['value']) || $record->content == $d['value'] ) {
-					if ( empty($d['ttl']) || $record->expire == $d['ttl'] ) {
-						return false;
-					}
+	foreach ( $records as $record ) {
+		if ( $record['name'] == $d['name'] && $record['type'] == strtoupper($d['type']) ) {
+			if ( empty($d['ttl']) || $record['expire'] == $d['ttl'] ) {
+				if ( empty($d['value']) || $record['content'] == $d['value'] ) {
+					$client->dnsRemove($d['domain'], $d['name'], $d['type'], $record['content'], $record['expire']);
+					print_r($client);
 				}
 			}
-			return true;
-		});
-
-		if ( count($before) != count($removed) ) {
-			$client->setDnsEntries($d['domain'], array_values($removed));
 		}
-	}
-	catch ( Exception $ex ) {
-		err($ex->getMessage());
 	}
 
 	exit("Record deleted.\n");
