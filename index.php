@@ -46,7 +46,6 @@ elseif ( isset($d['delete']) ) {
 			if ( empty($d['ttl']) || $record['expire'] == $d['ttl'] ) {
 				if ( empty($d['value']) || $record['content'] == $d['value'] ) {
 					$client->dnsRemove($d['domain'], $d['name'], $d['type'], $record['content'], $record['expire']);
-					print_r($client);
 				}
 			}
 		}
